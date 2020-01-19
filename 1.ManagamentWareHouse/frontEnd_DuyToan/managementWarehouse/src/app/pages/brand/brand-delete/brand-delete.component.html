@@ -1,0 +1,22 @@
+<form *ngIf="brand">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirm delete operation</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h6>Are you sure you want to delete Brand ?</h6>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss('Cross click')">
+      <i class="fas fa-ban"></i>
+      <span> Cancel</span>
+    </button>
+    <button type="submit" class="btn btn-danger" (click)="confirmDelete(brand.id)">
+      <i class="fas fa-trash-alt"></i>
+      <span> Delete</span>
+    </button>
+  </div>
+</form>

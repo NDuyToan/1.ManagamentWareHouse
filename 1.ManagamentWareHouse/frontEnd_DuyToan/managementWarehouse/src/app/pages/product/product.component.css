@@ -1,0 +1,38 @@
+.mat-raised-button{
+  margin-right: 5px;
+}
+.mat-raised-button.mat-green{
+  background-color: #00e676;
+  color:white
+}
+.mat-raised-button.mat-yellow{
+  background-color: #ffd600;
+  color:white
+}
+table{
+  width: 100%;
+}
+.mat-column-id{
+
+  width: 10%;
+}
+.mat-column-productName{
+  width: 30%;
+}
+.mat-column-priceProduct{
+  width: 10%;
+}
+.mat-column-quantityProduct{
+  width: 10%;
+}
+.mat-column-action{
+  width: 40%;
+}
+/* .mat-column-action.button{
+  width: 20%;
+} */
+.mat-header-cell{
+  font-weight: bold;
+  font-size: 15px;
+}
+

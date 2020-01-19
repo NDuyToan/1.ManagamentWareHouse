@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <a class="navbar-brand">managementWarehouse</a>
+  <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+    aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavId">
+    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+      <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link" [routerLink] = "['']">
+          <span>
+            <i class="fas fa-home"></i>
+            <span> Home</span>
+          </span>
+        </a>
+      </li>
+
+      <li class="nav-item dropdown" *ngIf="isLogin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link dropdown-toggle" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" >
+          <i class="fas fa-th-list"></i>
+          <span> Pages</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownId">
+          <a class="dropdown-item" [routerLink]="[ '/brand' ]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Brand</span></a>
+          <a class="dropdown-item" [routerLink]="['/category']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Category</span>
+          </a>
+          <a class="dropdown-item" [routerLink]="[ '/product' ]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Product</span></a>
+          <a class="dropdown-item" [routerLink]="[ '/customer' ]" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Customer</span>
+          </a>
+          <!-- <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Import Detail Info</span></a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Import Info </span>
+          </a> -->
+        </div>
+      </li>
+      <!-- <li class="nav-item dropdown" *ngIf="isLogin()">
+        <a class="nav-link dropdown-toggle" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          <i class="fas fa-th-list"></i>
+          <span> Administration</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownId">
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> User management</span></a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Metrics</span>
+          </a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Health</span></a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Configuration</span>
+          </a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Audits</span></a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> Logs </span>
+          </a>
+          <a class="dropdown-item">
+            <span><i class="fas fa-asterisk"></i></span>
+            <span> API </span>
+          </a>
+        </div>
+      </li> -->
+
+      <li class="nav-item dropdown" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <a class="nav-link dropdown-toggle" id="dropdownId" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <span><i class="fas fa-user"></i></span>
+          <span> Account</span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="dropdownId">
+          <a class="dropdown-item" (click)="onLogin()" *ngIf="!isLogin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-sign-in-alt"></i></span>
+            <span> Sign In</span></a>
+          <a class="dropdown-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-user-plus"></i></span>
+            <span> Register</span>
+          </a>
+          <a class="dropdown-item" (click)="onLogOut()" *ngIf="isLogin()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <span><i class="fas fa-sign-in-alt"></i></span>
+            <span> Sign Out</span></a>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</nav>

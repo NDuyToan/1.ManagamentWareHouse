@@ -1,0 +1,26 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <h4> Creat a new Category</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form action="" [formGroup] = "frNewCategory" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="categoryName">Category Name</label>
+          <input type="text" name="categoryName" id="categoryName" class="form-control" formControlName = "cateName">
+
+        </div>
+        <button type="submit" class="btn btn-primary  mr-2" [disabled] ="!frNewCategory.valid">
+          <i class="fas fa-save"></i>
+          <span> Save</span>
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()">
+          <i class="fas fa-ban"></i>
+          <span> Cancel</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

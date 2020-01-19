@@ -1,0 +1,27 @@
+<div class="container mt-5" *ngIf="category">
+  <div class="row">
+    <div class="col-md-12">
+      <h4> Category {{category.id}}</h4>
+      <hr/>
+    </div>
+
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h6> Category Name</h6>
+      <p> {{category.cateName}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <button type="button" class="btn btn-primary mr-2" (click)="onBack()">
+        <i class="fas fa-arrow-left"></i>
+        <span> Back</span>
+      </button>
+      <!-- <button type="button" class="btn btn-info">
+        <i class="fas fa-pen"></i>
+        <span> Edit</span>
+      </button> -->
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="container mt-5" *ngIf="brand">
+  <div class="row">
+    <div class="col-md-12">
+      <h4> Edit Brand</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <form action="" [formGroup] = "frEditBrand" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="brandName">ID</label>
+          <input type="text" name="id" id="id" class="form-control" formControlName = "id"  readonly>
+        </div>
+        <div class="form-group">
+          <label for="brandName">Brand Name</label>
+          <input type="text" name="brandName" id="brandName" class="form-control" formControlName = "brandName" >
+        </div>
+        <button type="submit" class="btn btn-primary  mr-2" [disabled] ="!frEditBrand.valid">
+          <i class="fas fa-save"></i>
+          <span> Save</span>
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()">
+          <i class="fas fa-ban"></i>
+          <span> Cancel</span>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

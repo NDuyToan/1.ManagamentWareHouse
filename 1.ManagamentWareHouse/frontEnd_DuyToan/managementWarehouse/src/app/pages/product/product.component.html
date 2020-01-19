@@ -1,0 +1,165 @@
+<!-- <div class="container-fluid my-3 p-3">
+  <div class="row">
+    <div class="col-md-12 text-right ">
+      <button type="button" class="btn btn-primary " routerLink="new">
+        <h5>+ CREATE A NEW PRODUCT</h5>
+      </button>
+      <button mat-raised-button color="primary" routerLink="new">+ CREATE A NEW PRODUCT</button>
+    </div>
+    <div class="col-md-12 text-right ">
+      <button type="button" class="btn btn-primary " (click)="loadBrands()">Get All Brands</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Products</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr class="bg-primary">
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Price Product</th>
+            <th>Quantity Product</th>
+            <th>Category</th>
+            <th>Brand</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of products; ">
+            <td>{{product.id}}</td>
+            <td>{{product.productName}}</td>
+            <td>{{product.priceProduct}}</td>
+            <td>{{product.quantityProduct}}</td>
+            <td>
+              <div *ngIf="product.category">
+                {{product.category.id}}
+              </div>
+            </td>
+            <td>
+              <div *ngIf="product.brand">
+                {{product.brand.id}}
+              </div>
+            </td>
+            <td class="text-right">
+              <button type="button" class="btn btn-primary mr-2" routerLink="product/{{product.id}}">
+                <i class="fas fa-eye"></i>
+                <span> View</span>
+              </button>
+             <button type="button" class="btn btn-info mr-2" routerLink="product/{{product.id}}">
+                <i class="fas fa-pen"></i>
+                <span> Edit</span>
+              </button>
+
+              <button type="button" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>
+                <span> Delete</span>
+              </button>
+
+              <button mat-raised-button color="green" routerLink="product/{{product.id}}">
+                <i class="material-icons">add</i>
+                <span>Import</span>
+              </button>
+              <button mat-raised-button color="yellow" routerLink="product/{{product.id}}">
+                <i class="material-icons">remove</i>
+                <span>Order</span>
+              </button>
+              <button mat-raised-button color="primary" routerLink="product/{{product.id}}">
+                <i class="material-icons">remove_red_eye</i>
+                <span>View</span>
+              </button>
+              <button mat-raised-button color="accent" routerLink="product/{{product.id}}">
+                <i class="material-icons">edit </i>
+                <span>Edit</span>
+              </button>
+              <button mat-raised-button color="warn" routerLink="product/{{product.id}}">
+                <i class="material-icons"> delete </i>
+                <span>Delete</span>
+              </button>
+
+
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <hr> -->
+
+
+  <div class="container-fluid my-5">
+    <div class="row">
+      <div class="col-md-12 text-right ">
+        <button mat-raised-button color="primary" routerLink="new">+ CREATE A NEW PRODUCT</button>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Products</h2>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table mat-table [dataSource]="products">
+
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let product">{{product.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="productName">
+            <th mat-header-cell *matHeaderCellDef> Product Name </th>
+            <td mat-cell *matCellDef="let product">{{product.productName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="priceProduct">
+            <th mat-header-cell *matHeaderCellDef> Price Product </th>
+            <td mat-cell *matCellDef="let product">{{product.priceProduct}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="quantityProduct">
+            <th mat-header-cell *matHeaderCellDef> Quantity Product </th>
+            <td mat-cell *matCellDef="let product">{{product.quantityProduct}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="text-right"> </th>
+            <td mat-cell *matCellDef="let product" class="text-right">
+              <button mat-raised-button color="green" routerLink="product/{{product.id}}">
+                <i class="material-icons">add</i>
+                <span>Import</span>
+              </button>
+              <button mat-raised-button color="yellow" routerLink="product/{{product.id}}">
+                <i class="material-icons">remove</i>
+                <span>Order</span>
+              </button>
+              <button mat-raised-button color="primary" routerLink="product/{{product.id}}">
+                <i class="material-icons">remove_red_eye</i>
+                <span>View</span>
+              </button>
+              <button mat-raised-button color="accent" routerLink="product/{{product.id}}">
+                <i class="material-icons">edit </i>
+                <span>Edit</span>
+              </button>
+              <button mat-raised-button color="warn" routerLink="product/{{product.id}}">
+                <i class="material-icons"> delete </i>
+                <span>Delete</span>
+              </button>
+
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,52 @@
+<div class="container-fluid my-3 p-3">
+  <div class="row">
+    <div class="col-md-12 text-right ">
+      <button type="button" class="btn btn-primary " routerLink="new">
+        <h5>+ CREATE A NEW CATEGORY</h5>
+      </button>
+    </div>
+    <!-- <div class="col-md-12 text-right ">
+      <button type="button" class="btn btn-primary " (click)="loadBrands()">Get All Brands</button>
+    </div> -->
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Categories</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover" *ngIf="categories.length> 0">
+        <thead>
+          <tr class="bg-primary">
+            <th>ID</th>
+            <th>Category Name</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let category of categories; trackBy: trackByID ">
+            <td>{{category.id}}</td>
+            <td>{{category.cateName}}</td>
+            <td class="text-right">
+              <button type="button" class="btn btn-primary mr-2" routerLink="view/{{category.id}}">
+                <i class="fas fa-eye"></i>
+                <span> View</span>
+              </button>
+              <button type="button" class="btn btn-info mr-2" routerLink="edit/{{category.id}}">
+                <i class="fas fa-pen"></i>
+                <span> Edit</span>
+              </button>
+              <button type="button" class="btn btn-danger">
+                <i class="fas fa-trash-alt"></i>
+                <span> Delete</span>
+              </button>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
