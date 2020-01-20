@@ -1,1 +1,49 @@
-<p>product-new works!</p>
+<h1 mat-dialog-title>Create a new Product</h1>
+<form action=""  [formGroup]="frNewProduct">
+<div mat-dialog-content>
+
+    <div class="form-group">
+      <label for="productName">Product Name</label>
+      <input type="text" name="productName" id="productName" class="form-control" formControlName = "productName">
+    </div>
+    <div class="form-group">
+      <label for="priceProduct">Price Name</label>
+      <input type="text" name="priceProduct" id="priceProduct" class="form-control" formControlName = "priceProduct">
+    </div>
+    <div class="form-group">
+      <label for="quantityProduct">Quantity Name</label>
+      <input type="text" name="quantityProduct" id="quantityProduct" class="form-control" formControlName = "quantityProduct">
+    </div>
+    <div class="form-group">
+      <label for="category">Category</label>
+
+      <select name="category" id="category" class="form-control" formControlName = "category">
+        <option [ngValue]="null">Choose Category</option>
+        <option *ngFor="let category of categories">{{category.id}} </option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="brand">Brand</label>
+      <!-- <input type="text" name="brand" id="brand" class="form-control" formControlName = "brand"> -->
+      <select name="brand" id="brand" class="form-control" formControlName = "brand">
+        <option [ngValue]="null">Choose Brand</option>
+        <option *ngFor="let brand of brands">{{brand.id}} </option>
+      </select>
+    </div>
+
+
+
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button  (click)="Close()">
+    <i class="material-icons">
+      cancel
+      </i>
+      Cancel</button>
+  <button mat-raised-button color ="primary" >
+    <i class="material-icons">
+      save
+      </i>
+      Save</button>
+</div>
+</form>

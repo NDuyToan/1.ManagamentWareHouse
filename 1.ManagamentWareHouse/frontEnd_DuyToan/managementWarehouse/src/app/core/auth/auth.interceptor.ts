@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
     // Get the auth token from the service.
     const authToken:string =  `Bearer ${localStorage.getItem('token')}`;
     const auth = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTU3OTM0MDA0MX0.9wdOlg9B_oZuzrGU5vgSIfJ4DAW7JjSE2wrOQ6qlpHz0-r8oR3eaAdkGVbQ5ewM7Ab7Di2uhNUqC9Ihrs8TYig"
-    console.log(authToken);
+    //console.log(authToken);
 
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.

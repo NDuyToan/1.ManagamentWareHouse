@@ -23,11 +23,17 @@ export class ProductService {
       'Authorization': 'Bearer ' + this.token,
     })
   };
+
+
   // getAllProducts(): Observable<Product[]>{
   //   return this.http.get<Product[]>(URL_PRODUCTS, this.httpOptions);
   // }
   getAllProducts(): Observable<Product[]>{
     return this.http.get<Product[]>(URL_PRODUCTS);
+
+  }
+  getProductByPage( pageIndex:number,  pageSize: number): Observable<Product[]>{
+    return this.http.get<Product[]>(`${URL_PRODUCTS}?page=${pageIndex}&size=${pageSize}`);
   }
   // getAllProducts():Observable<Product[]>{
   //   return this.http.get<Product[]>(URL_PRODUCTS, this.httpOptions);
