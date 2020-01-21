@@ -101,6 +101,7 @@
       </div> -->
     <div class="col-md-12 text-right ">
       <button mat-raised-button color="primary" (click)="openProductNew()">+ CREATE A NEW PRODUCT</button>
+      <button mat-raised-button color="primary" (click)="addProduct(productTest)">+ ADD PRODUCT</button>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -161,20 +162,15 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-
       </table>
-
-
-
-
     </div>
   </div>
   <div class="row">
     <mat-paginator #paginator [length]="length"
                               [pageSize]="pageSize"
-                              [pageSizeOptions]="[5, 10, 25, 100]"
-                              (page)="pageEvent = getServerData($event)">
+                              [pageSizeOptions]="[3,5, 10,50]"
+                              (page)=" pageEvent = getServerData($event)"
+                              showFirstLastButtons>
     </mat-paginator>
   </div>
   <div class="row">
@@ -185,8 +181,6 @@
       <div>Page index: {{pageEvent.pageIndex}}</div>
     </div>
   </div>
-  <!-- <div class="row">
-    <button (click) = "onGetData(pageEvent.pageIndex,pageEvent.pageSize)"> get data</button>
-  </div> -->
+
 </div>
 

@@ -38,4 +38,7 @@ export class ProductService {
   // getAllProducts():Observable<Product[]>{
   //   return this.http.get<Product[]>(URL_PRODUCTS, this.httpOptions);
   // }
+  creatNewProduct(product: Product):Observable<Product>{
+    return this.http.post<Product>(URL_PRODUCTS,product);
+  }
 }
