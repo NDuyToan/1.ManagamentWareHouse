@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
@@ -7,6 +7,7 @@ import {PageEvent} from '@angular/material/paginator';
 import { Product} from './../../shared/model/product.model';
 import { ProductService } from './product.service';
 import { ProductNewComponent } from './product-new/product-new.component';
+//import { ResponseProduct } from './../../shared/model/responseProduct.model';
 
 @Component({
   selector: 'app-product',
@@ -15,126 +16,181 @@ import { ProductNewComponent } from './product-new/product-new.component';
 })
 export class ProductComponent implements OnInit {
 
+  private paginator: MatPaginator;
   public products: Product[] = [];
-  public displayedColumns: string[] = ['id', 'productName', 'priceProduct', 'quantityProduct', 'action'];
+  public displayedColumns: string[] = ['id', 'productName', 'priceProduct', 'quantityProduct','brand','category', 'action'];
+  public currentPageIndex:number = 0;
+  public currentPageSize: number = 5;
+  public currentItemsPerPage: number;
+  public currentLength:number;
 
-  public pageSizeOptions: number[] = [5, 10];
+  private defaultPageIndex:number = 0;
+  private defaultPageSize = 5;
+  private isNewPage:boolean=false;
+
+  public pageSizeOptions: number[] = [5, 10, 20, 50];
   pageEvent: PageEvent;
   datasource: null;
-  pageIndex:number;
-  pageSize:number;
+  pageIndex:number = 0;
+  pageSize:number = 5;
   length:number;
   constructor(
     private productService: ProductService,
     public dialog: MatDialog,
-   // private dialogRef: MatDialogRef<ProductNewComponent>
+
+
 
   ) { }
-  //@ViewChild(MatPaginator) paginator: MatPaginator;
-//  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-//   ngAfterViewInit() {
-//     this.products.paginator = this.paginator;
-//   }
+
 
   ngOnInit() {
-    //this.loadProducts();
 
-   // this.products.paginator = this.paginator;
-   //this.onGetData(0,5);
-   this.getServerData(null);
-  //  this.dialogRef.afterClosed().subscribe( ()=>{
-  //   this.getServerData(null);
-  // })
-   //console.log('page size:',this.pageEvent.pageSize );
-   //console.log('page index:',this.pageEvent.pageIndex );
-  // this.onGetData1();
+   this.getProducts();
 
   }
-  loadProducts(){
-   return this.productService.getAllProducts().subscribe( (data) => {
-     this.products = data.content;
-     //console.log(this.products);
-    } )
+  handlePageChange(event:PageEvent){
+    this.currentPageIndex = event.pageIndex;
+    this.currentPageSize = event.pageSize;
+    this.currentLength = event.length;
+    this.getProducts(event);
   }
-  public getServerData(event?:PageEvent){
-    if(event==null){
-     var index = 0;
-     var size = 5;
-    } else {
-      var index = event.pageIndex;
-      var size = event.pageSize
+
+  showIndex(i){
+    return this.currentPageIndex*this.currentPageSize+i;
+  }
+
+  getProducts(event?:PageEvent){
+    if( event ==null){
+      var index:number = 0;
+      var size:number = this.currentPageSize;
     }
-    this.productService.getProductByPage(index,size).subscribe(
-      response =>{
-         // console.log("response");
-          // console.log(response);
-          // console.log(event);
-          this.products = response.content;
-          this.pageIndex = response.pageable.pageNumber;
-          this.pageSize = response.pageable.pageSize;
-          this.length = response.totalElements;
 
-      },
+    index = this.currentPageIndex;
+    size = this.currentPageSize;
 
-    );
-    return event;
+    this.productService.getProductByPage(index, size).subscribe(
+      (response)=>{
+       // console.log(response);
+        this.products = response.content;
+        this.length = response.totalElements;
+      });
   }
-  openProductNew(){
-    var dialogRef = this.dialog.open(ProductNewComponent, {
-      width: '80%',
-    });
-    dialogRef.afterClosed().subscribe( ()=>{
-      //this.getServerData(null);
-      this.productService.getProductByPage(this.pageIndex,this.pageSize).subscribe(
-        response =>{
-          // console.log("response");
-           // console.log(response);
-           // console.log(event);
-           console.log(this.pageIndex);
-           this.products = response.content;
-           this.pageIndex = response.pageable.offset;
-           this.pageSize = response.pageable.pageSize;
-           this.length = response.totalElements;
 
-       },
-      )
+  openProductNew(){
+    let dialogRef = this.dialog.open(ProductNewComponent, {
+      width: '80%',
+    })
+    dialogRef.afterClosed().subscribe( (result) => {
+      if(result != 'close'){
+        this.productService.creatNewProduct(result).subscribe( ()=>{
+          this.getProducts();
+        })
+      }
+
     })
   }
-  public productTest: Product = {
 
-    productName: "tesst11",
-    priceProduct: 1234,
-    quantityProduct: 22,
 
-  }
-  addProduct(product: Product){
-    this.productService.creatNewProduct(product).subscribe(
-      ()=>{
-
-        console.log('page index: '+ this.pageIndex);
-        console.log('page size:'+ this.pageSize);
-        this.productService.getProductByPage()
-      }
-    );
-  }
-  //this.dialogRef.afterClosed().subscribe( ()=>{ console.log('colose');})
-  // this.dialogRef.afterClosed().subscribe(result => {
-  //   console.log(`Dialog result: ${result}`); // Pizza!
-  // });
-  // this.dialogRef.close('Pizza!');
-
-  // onGetData(pageIndex: number,  pageSize: number){
-  //   //console.log('page size:',this.pageEvent.pageSize );
-  //  // console.log('page index:',this.pageEvent.pageIndex );
-  //   return this.productService.getProductByPage(pageIndex,pageSize).subscribe( (data) =>{this.products = data.content;})
+  // getProducts(event?:PageEvent){
+  //   if(event != null){
+  //     this.defaultPageIndex = this.currentPageIndex;
+  //     this.defaultPageSize = this.currentPageSize;
+  //   }
+  //   this.productService.getProductByPage(this.defaultPageIndex, this.defaultPageSize).subscribe(
+  //     (response)=>{
+  //       this.products = response.content;
+  //       this.length = response.totalElements;
+  //       if( response.last ==true && response.numberOfElements == this.currentPageSize){
+  //         this.isNewPage = true;
+  //         this.currentPageIndex++;
+  //         console.log('tang page index');
+  //         console.log(`new page index: ${this.currentPageIndex}`);
+  //       }
+  //     });
 
   // }
-  // onGetData1(){
-  //   return this.productService.getProductByPage(this.pageEvent.pageIndex,this.pageEvent.pageSize).subscribe( (data) =>{this.products = data.content;})
+
+  // public getServerData(event?:PageEvent){
+  //   if(event==null){
+  //   //  var index = 0;
+  //   //  var size = 5;
+
+  //   } else {
+  //     var index = event.pageIndex;
+  //     var size = event.pageSize;
+  //     this.currentPageIndex = event.pageIndex;
+  //     this.currentPageSize = event.pageSize;
+
+  //   }
+  //   this.productService.getProductByPage(index,size).subscribe(
+  //     response =>{
+  //         // console.log(response);
+  //         // console.log(event);
+  //         this.products = response.content;
+  //         this.length = response.totalElements;
+  //         this.currentItemsPerPage = response.numberOfElements;
+
+  //         // this.pageIndex = response.pageable.pageNumber;
+  //        // this.pageSize = response.pageable.pageSize;
+
+  //     },
+  //   );
+  //   return event;
   // }
-  // setPageSizeOptions(setPageSizeOptionsInput: string) {
-  //   this.pageSizeOptions = setPageSizeOptionsInput.split(',').map(str => +str);
+
+  // openProductNew(){
+
+
+  //   let dialogRef = this.dialog.open(ProductNewComponent, {
+  //     width: '80%',
+  //   })
+  //   dialogRef.afterClosed().subscribe( (result) => {
+
+  //     this.productService.creatNewProduct(result).subscribe( ()=> {
+
+  //      this.productService.getProductByPage(2,5).subscribe(
+  //       response => {
+  //         console.log(response);
+  //           // console.log(event);
+  //           this.products = response.content;
+  //           // this.pageIndex = response.pageable.pageNumber;
+  //           // this.pageSize = response.pageable.pageSize;
+  //           // this.length = response.totalElements;
+  //       },
+  //     );
+  //     });
+  //   })
   // }
+
+  // openProductNew1(){
+
+
+  //   let dialogRef = this.dialog.open(ProductNewComponent, {
+  //     width: '80%',
+  //   })
+  //   dialogRef.afterClosed().subscribe( (result) => {
+  //     this.productService.creatNewProduct(result).subscribe( ()=>{
+  //      // console.log(this.currentPageIndex);
+  //      // console.log(`items ${this.currentItemsPerPage}`);
+  //      if( this.currentItemsPerPage==this.currentPageSize) {
+  //        this.currentPageIndex++;
+  //        console.log(`current page index: ${this.currentPageIndex}`);
+  //      }
+  //      console.log(`page size: ${this.currentPageSize}`);
+  //      console.log(`current page index: ${this.currentPageIndex}`);
+  //      console.log(`current items Per page ${this.currentItemsPerPage}`);
+  //       this.productService.getProductByPage(this.currentPageIndex, this.currentPageSize).subscribe(
+  //         response => {
+  //           this.products = response.content;
+  //           console.log(response);
+  //         })
+  //      // this.getServerData()
+  //     })
+  //   })
+  // }
+
+
+
 
 
 }

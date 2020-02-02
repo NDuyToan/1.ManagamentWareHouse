@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>Create a new Product</h1>
-<form action=""  [formGroup]="frNewProduct" (submit)="onSubmit()">
+<form action=""  [formGroup]="frNewProduct" >
 <div mat-dialog-content>
 
     <div class="form-group">
@@ -7,11 +7,11 @@
       <input type="text" name="productName" id="productName" class="form-control" formControlName = "productName">
     </div>
     <div class="form-group">
-      <label for="priceProduct">Price Name</label>
+      <label for="priceProduct">Price Product</label>
       <input type="text" name="priceProduct" id="priceProduct" class="form-control" formControlName = "priceProduct">
     </div>
     <div class="form-group">
-      <label for="quantityProduct">Quantity Name</label>
+      <label for="quantityProduct">Quantity Product</label>
       <input type="text" name="quantityProduct" id="quantityProduct" class="form-control" formControlName = "quantityProduct">
     </div>
     <div class="form-group">
@@ -19,7 +19,7 @@
 
       <select name="category" id="category" class="form-control" formControlName = "category">
         <option [ngValue]="null">Choose Category</option>
-        <option *ngFor="let category of categories">{{category.id}} </option>
+        <option *ngFor="let category of categories" [ngValue] = "category">{{category.cateName}} </option>
       </select>
     </div>
     <div class="form-group">
@@ -27,7 +27,7 @@
       <!-- <input type="text" name="brand" id="brand" class="form-control" formControlName = "brand"> -->
       <select name="brand" id="brand" class="form-control" formControlName = "brand">
         <option [ngValue]="null">Choose Brand</option>
-        <option *ngFor="let brand of brands">{{brand.id}} </option>
+        <option *ngFor="let brand of brands" [ngValue] = "brand">{{brand.brandName}} </option>
       </select>
     </div>
 
@@ -40,7 +40,7 @@
       cancel
       </i>
       Cancel</button>
-  <button type="submit" mat-raised-button color ="primary" >
+  <button mat-raised-button color ="primary" (click)="Save()">
     <i class="material-icons">
       save
       </i>

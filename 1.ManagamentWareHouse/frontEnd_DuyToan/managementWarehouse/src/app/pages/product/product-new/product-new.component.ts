@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef } from '@angular/material';
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 import { Category } from  './../../../shared/model/category.model';
 import { Brand } from  './../../../shared/model/brand.class';
@@ -23,6 +24,7 @@ export class ProductNewComponent implements OnInit {
     private brandService: BrandService,
     private productService: ProductService,
     private dialogRef: MatDialogRef<ProductNewComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any
 
   ) { }
   public brands: Brand[] = [];
@@ -43,23 +45,20 @@ export class ProductNewComponent implements OnInit {
     this.categoryService.getAllCategories().subscribe( (data) => {
       this.categories = data;
     })
+
     this.brandService.getAllBrands().subscribe( data =>{
-
       this.brands = data;
-
    })
 
   }
+
   Close(){
-    this.frNewProduct.reset();
-    this.dialogRef.close();
+    this.dialogRef.close('close');
   }
-  onSubmit(){
+
+  Save(){
     console.log(this.frNewProduct.value);
-    this.productService.creatNewProduct(this.frNewProduct.value).subscribe();
-    //this.Close();
-    this.dialogRef.close('submited success');
-    this.dialogRef.afterClosed().subscribe( (result)=>{console.log(`dialog result: ${result}`);})
+    this.dialogRef.close(this.frNewProduct.value);
   }
 
 }
