@@ -26,8 +26,15 @@ export class ProductNewComponent implements OnInit {
     private dialogRef: MatDialogRef<ProductNewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
 
-  ) { }
+  ) {
+    if(data){
+      this.product = data.product;
+    }
+
+   }
   public brands: Brand[] = [];
+  public brand: Brand;
+  public category: Category;
   public categories: Category[] = [];
   public product: Product;
 
@@ -44,11 +51,28 @@ export class ProductNewComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getAllCategories().subscribe( (data) => {
       this.categories = data;
+      this.category = this.categories[this.product.category.id];
+      //console.log(this.product.category);
+
     })
 
     this.brandService.getAllBrands().subscribe( data =>{
       this.brands = data;
    })
+   if(this.product ){
+    // console.log(this.product);
+     //console.log(this.categories);
+     //console.log(this.category);
+    this.frNewProduct.setValue({
+      productName:this.product.productName,
+      priceProduct:this.product.priceProduct,
+     quantityProduct:this.product.quantityProduct,
+     category: this.product.category,
+     brand:this.product.brand,
+    })
+
+   }
+
 
   }
 
@@ -57,7 +81,6 @@ export class ProductNewComponent implements OnInit {
   }
 
   Save(){
-    console.log(this.frNewProduct.value);
     this.dialogRef.close(this.frNewProduct.value);
   }
 

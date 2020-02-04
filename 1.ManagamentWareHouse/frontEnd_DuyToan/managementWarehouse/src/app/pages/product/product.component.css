@@ -12,9 +12,13 @@
 table{
   width: 100%;
 }
+.mat-column-index{
+
+  width: 5%;
+}
 .mat-column-id{
 
-  width: 10%;
+  width: 5%;
 }
 .mat-column-productName{
   width: 20%;
@@ -40,5 +44,10 @@ table{
 .mat-header-cell{
   font-weight: bold;
   font-size: 15px;
+}
+a{
+  color:blue;
+  cursor: pointer;
+
 }
 

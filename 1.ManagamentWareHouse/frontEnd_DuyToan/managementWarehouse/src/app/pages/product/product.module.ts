@@ -10,13 +10,15 @@ import {MatPaginatorModule} from '@angular/material';
 import { ProductComponent } from './product.component';
 import { ProductRoutingModule } from './product.route';
 import { ProductNewComponent } from './product-new/product-new.component';
+import { ProductDeleteComponent } from './product-delete/product-delete.component';
 
 
 
 @NgModule({
   declarations: [
     ProductComponent,
-    ProductNewComponent
+    ProductNewComponent,
+    ProductDeleteComponent
     ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { ProductNewComponent } from './product-new/product-new.component';
     MatPaginatorModule
   ],
   entryComponents: [
-    ProductNewComponent
+    ProductNewComponent,
+    ProductDeleteComponent
   ]
 })
 export class ProductModule { }

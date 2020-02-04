@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatPaginator, MatTableDataSource} from '@angular/material';
 import {PageEvent} from '@angular/material/paginator';
+import { Router } from '@angular/router';
 
 import { Product} from './../../shared/model/product.model';
 import { ProductService } from './product.service';
 import { ProductNewComponent } from './product-new/product-new.component';
+import { ProductDeleteComponent } from './product-delete/product-delete.component';
 //import { ResponseProduct } from './../../shared/model/responseProduct.model';
 
 @Component({
@@ -15,30 +17,29 @@ import { ProductNewComponent } from './product-new/product-new.component';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-
-  private paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  //private paginator: MatPaginator;
   public products: Product[] = [];
-  public displayedColumns: string[] = ['id', 'productName', 'priceProduct', 'quantityProduct','brand','category', 'action'];
-  public currentPageIndex:number = 0;
+  public displayedColumns: string[] = ['index','id', 'productName', 'priceProduct', 'quantityProduct','brand','category', 'action'];
+  public currentPageIndex:number =0;
   public currentPageSize: number = 5;
-  public currentItemsPerPage: number;
+  //public currentItemsPerPage: number;
   public currentLength:number;
 
-  private defaultPageIndex:number = 0;
-  private defaultPageSize = 5;
-  private isNewPage:boolean=false;
+  public defaultPageIndex:number = 0;
+  public defaultPageSize = 5;
+  //private isNewPage:boolean=false;
 
   public pageSizeOptions: number[] = [5, 10, 20, 50];
-  pageEvent: PageEvent;
-  datasource: null;
-  pageIndex:number = 0;
-  pageSize:number = 5;
+  //pageEvent: PageEvent;
+  //datasource: null;
+  // pageIndex:number = 0;
+  // pageSize:number = 5;
   length:number;
   constructor(
     private productService: ProductService,
     public dialog: MatDialog,
-
-
+    private routerService: Router,
 
   ) { }
 
@@ -48,6 +49,9 @@ export class ProductComponent implements OnInit {
    this.getProducts();
 
   }
+
+
+
   handlePageChange(event:PageEvent){
     this.currentPageIndex = event.pageIndex;
     this.currentPageSize = event.pageSize;
@@ -57,22 +61,25 @@ export class ProductComponent implements OnInit {
 
   showIndex(i){
     return this.currentPageIndex*this.currentPageSize+i;
+
   }
 
   getProducts(event?:PageEvent){
-    if( event ==null){
-      var index:number = 0;
-      var size:number = this.currentPageSize;
-    }
-
-    index = this.currentPageIndex;
-    size = this.currentPageSize;
-
+    // if( event ==null){
+    //   var index:number = this.currentPageIndex;
+    //   var size:number = this.currentPageSize;
+    // }
+    // else{
+    //   index = this.currentPageIndex;
+    //   size = this.currentPageSize;
+    // }
+   var index = this.currentPageIndex;
+   var size = this.currentPageSize;
     this.productService.getProductByPage(index, size).subscribe(
       (response)=>{
-       // console.log(response);
         this.products = response.content;
         this.length = response.totalElements;
+
       });
   }
 
@@ -83,113 +90,48 @@ export class ProductComponent implements OnInit {
     dialogRef.afterClosed().subscribe( (result) => {
       if(result != 'close'){
         this.productService.creatNewProduct(result).subscribe( ()=>{
-          this.getProducts();
+          this.paginator.firstPage();
+          this.getProducts(null);
+
         })
       }
 
     })
   }
+  goToBrand(id){
+    this.routerService.navigate([`brand/detail/${id}`]);
+  }
+  goToCategory(id){
+    this.routerService.navigate([`category/view/${id}`]);
+  }
+  deleteProduct(product:Product){
+    let dialogRef = this.dialog.open(ProductDeleteComponent, {
+      width: '50%',
+      data: {productName: product.productName}
+    })
+    dialogRef.afterClosed().subscribe( (result)=>{
+      if(result == 'delete'){
+        this.productService.deleteProduct(product.id).subscribe( ()=>{
+          //this.paginator.firstPage();
+          this.getProducts(null);
+        })
+      }
+    })
+  }
 
 
-  // getProducts(event?:PageEvent){
-  //   if(event != null){
-  //     this.defaultPageIndex = this.currentPageIndex;
-  //     this.defaultPageSize = this.currentPageSize;
-  //   }
-  //   this.productService.getProductByPage(this.defaultPageIndex, this.defaultPageSize).subscribe(
-  //     (response)=>{
-  //       this.products = response.content;
-  //       this.length = response.totalElements;
-  //       if( response.last ==true && response.numberOfElements == this.currentPageSize){
-  //         this.isNewPage = true;
-  //         this.currentPageIndex++;
-  //         console.log('tang page index');
-  //         console.log(`new page index: ${this.currentPageIndex}`);
-  //       }
-  //     });
 
-  // }
-
-  // public getServerData(event?:PageEvent){
-  //   if(event==null){
-  //   //  var index = 0;
-  //   //  var size = 5;
-
-  //   } else {
-  //     var index = event.pageIndex;
-  //     var size = event.pageSize;
-  //     this.currentPageIndex = event.pageIndex;
-  //     this.currentPageSize = event.pageSize;
-
-  //   }
-  //   this.productService.getProductByPage(index,size).subscribe(
-  //     response =>{
-  //         // console.log(response);
-  //         // console.log(event);
-  //         this.products = response.content;
-  //         this.length = response.totalElements;
-  //         this.currentItemsPerPage = response.numberOfElements;
-
-  //         // this.pageIndex = response.pageable.pageNumber;
-  //        // this.pageSize = response.pageable.pageSize;
-
-  //     },
-  //   );
-  //   return event;
-  // }
-
-  // openProductNew(){
-
-
-  //   let dialogRef = this.dialog.open(ProductNewComponent, {
-  //     width: '80%',
-  //   })
-  //   dialogRef.afterClosed().subscribe( (result) => {
-
-  //     this.productService.creatNewProduct(result).subscribe( ()=> {
-
-  //      this.productService.getProductByPage(2,5).subscribe(
-  //       response => {
-  //         console.log(response);
-  //           // console.log(event);
-  //           this.products = response.content;
-  //           // this.pageIndex = response.pageable.pageNumber;
-  //           // this.pageSize = response.pageable.pageSize;
-  //           // this.length = response.totalElements;
-  //       },
-  //     );
-  //     });
-  //   })
-  // }
-
-  // openProductNew1(){
-
-
-  //   let dialogRef = this.dialog.open(ProductNewComponent, {
-  //     width: '80%',
-  //   })
-  //   dialogRef.afterClosed().subscribe( (result) => {
-  //     this.productService.creatNewProduct(result).subscribe( ()=>{
-  //      // console.log(this.currentPageIndex);
-  //      // console.log(`items ${this.currentItemsPerPage}`);
-  //      if( this.currentItemsPerPage==this.currentPageSize) {
-  //        this.currentPageIndex++;
-  //        console.log(`current page index: ${this.currentPageIndex}`);
-  //      }
-  //      console.log(`page size: ${this.currentPageSize}`);
-  //      console.log(`current page index: ${this.currentPageIndex}`);
-  //      console.log(`current items Per page ${this.currentItemsPerPage}`);
-  //       this.productService.getProductByPage(this.currentPageIndex, this.currentPageSize).subscribe(
-  //         response => {
-  //           this.products = response.content;
-  //           console.log(response);
-  //         })
-  //      // this.getServerData()
-  //     })
-  //   })
-  // }
-
-
+  editProduct(product: Product){
+    let dialogRef = this.dialog.open(ProductNewComponent, {
+      width: '80%',
+      data: {product: product}
+    });
+    dialogRef.afterClosed().subscribe( (data) =>{
+      console.log(data);
+      //lỗi vì chưa có ID
+      this.productService.editProduct(data).subscribe( ()=>{this.getProducts(null)})
+    })
+  }
 
 
 

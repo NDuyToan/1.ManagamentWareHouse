@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Brand } from './../../../shared/model/brand.class';
 import { BrandService } from './../brand.service';
+import { PreviousUrlService } from './../../../core/previous-url.service';
 
 @Component({
   selector: 'app-brand-detail',
@@ -14,6 +15,7 @@ export class BrandDetailComponent implements OnInit {
   constructor(
     private activatedRoute: ActivatedRoute,
     private brandService: BrandService,
+    private previousUrl: PreviousUrlService,
   ) { }
 
   ngOnInit() {
@@ -23,6 +25,7 @@ export class BrandDetailComponent implements OnInit {
    this.brandService.getBrandByID(id).subscribe( brand => this.brand = brand )
   }
   onBack(){
+    //console.log(this.previousUrl.getPreviousUrl());
     window.history.back();
   }
 
