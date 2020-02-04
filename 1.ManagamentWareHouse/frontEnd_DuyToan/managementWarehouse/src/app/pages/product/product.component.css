@@ -24,16 +24,16 @@ table{
   width: 20%;
 }
 .mat-column-priceProduct{
-  width: 10%;
+  width: 5%;
 }
 .mat-column-quantityProduct{
-  width: 10%;
+  width: 5%;
 }
 .mat-column-brand{
-  width: 5%;
+  width: 10%;
 }
 .mat-column-category{
-  width: 5%;
+  width: 10%;
 }
 .mat-column-action{
   width: 40%;

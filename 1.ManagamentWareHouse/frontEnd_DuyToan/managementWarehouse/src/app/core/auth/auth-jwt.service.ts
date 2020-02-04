@@ -23,12 +23,12 @@ import { URL_LOGIN} from './../../app.const';
   }
   logout() {
     this.router.navigateByUrl('');
-    return localStorage.removeItem(KEY_TOKEN);
+    return sessionStorage.removeItem(KEY_TOKEN);
   }
 
   setLocal(token: string){
-    localStorage.setItem(KEY_TOKEN, token);
-    if (localStorage.hasOwnProperty(KEY_TOKEN)){
+    sessionStorage.setItem(KEY_TOKEN, token);
+    if (sessionStorage.hasOwnProperty(KEY_TOKEN)){
       return true;
     } else {
       return false;
@@ -36,15 +36,15 @@ import { URL_LOGIN} from './../../app.const';
   }
 
   getLocal(): any {
-    if (localStorage.hasOwnProperty(KEY_TOKEN)) {
-    return localStorage.getItem(KEY_TOKEN);
+    if (sessionStorage.hasOwnProperty(KEY_TOKEN)) {
+    return sessionStorage.getItem(KEY_TOKEN);
   } else {
     return false;
   }
 
  }
  checkLogin() {
-  if (localStorage.hasOwnProperty(KEY_TOKEN)) {
+  if (sessionStorage.hasOwnProperty(KEY_TOKEN)) {
     return true;
   } else {
     this.loginModalService.open();

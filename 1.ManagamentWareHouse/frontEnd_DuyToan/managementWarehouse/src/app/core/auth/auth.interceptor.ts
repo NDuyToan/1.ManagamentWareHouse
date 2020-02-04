@@ -42,7 +42,7 @@ export class AuthInterceptor implements HttpInterceptor {
   // }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the auth token from the service.
-    const authToken:string =  `Bearer ${localStorage.getItem('token')}`;
+    const authToken:string =  `Bearer ${sessionStorage.getItem('token')}`;
     const auth = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTU3OTM0MDA0MX0.9wdOlg9B_oZuzrGU5vgSIfJ4DAW7JjSE2wrOQ6qlpHz0-r8oR3eaAdkGVbQ5ewM7Ab7Di2uhNUqC9Ihrs8TYig"
     //console.log(authToken);
 

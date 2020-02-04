@@ -29,18 +29,20 @@ export class ProductNewComponent implements OnInit {
   ) {
     if(data){
       this.product = data.product;
+      this.categoryCurrent = this.product.category;
     }
 
    }
   public brands: Brand[] = [];
   public brand: Brand;
-  public category: Category;
+  public categoryCurrent: Category;
   public categories: Category[] = [];
   public product: Product;
 
 
 
   frNewProduct = this.fb.group({
+    id:[''],
     productName:[''],
     priceProduct:[''],
     quantityProduct:[''],
@@ -51,26 +53,23 @@ export class ProductNewComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getAllCategories().subscribe( (data) => {
       this.categories = data;
-      this.category = this.categories[this.product.category.id];
-      //console.log(this.product.category);
-
     })
 
     this.brandService.getAllBrands().subscribe( data =>{
       this.brands = data;
    })
    if(this.product ){
-    // console.log(this.product);
-     //console.log(this.categories);
-     //console.log(this.category);
-    this.frNewProduct.setValue({
+    this.frNewProduct.patchValue({
+      id:this.product.id,
       productName:this.product.productName,
       priceProduct:this.product.priceProduct,
      quantityProduct:this.product.quantityProduct,
      category: this.product.category,
      brand:this.product.brand,
     })
-
+  // console.log(this.frNewProduct.value);
+    //console.log(this.frNewProduct.controls['category'].value);
+    //console.log(this.categoryCurrent);
    }
 
 

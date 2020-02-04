@@ -17,7 +17,7 @@ import { ProductDeleteComponent } from './product-delete/product-delete.componen
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator,{static: false}) paginator: MatPaginator;
   //private paginator: MatPaginator;
   public products: Product[] = [];
   public displayedColumns: string[] = ['index','id', 'productName', 'priceProduct', 'quantityProduct','brand','category', 'action'];
@@ -128,8 +128,10 @@ export class ProductComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe( (data) =>{
       console.log(data);
-      //lỗi vì chưa có ID
+     if(data !='close'){
       this.productService.editProduct(data).subscribe( ()=>{this.getProducts(null)})
+     }
+
     })
   }
 

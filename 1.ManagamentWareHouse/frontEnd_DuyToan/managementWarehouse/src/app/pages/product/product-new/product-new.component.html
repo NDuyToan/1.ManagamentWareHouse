@@ -2,6 +2,10 @@
 <form action=""  [formGroup]="frNewProduct" >
 <div mat-dialog-content>
 
+  <div class="form-group" *ngIf="product">
+    <label for="id">Product ID</label>
+    <input type="text" name="id" id="id" class="form-control" formControlName = "id" readonly>
+  </div>
     <div class="form-group">
       <label for="productName">Product Name</label>
       <input type="text" name="productName" id="productName" class="form-control" formControlName = "productName">
@@ -17,14 +21,46 @@
     <div class="form-group">
       <label for="category">Category</label>
 
-      <select name="category" id="category" class="form-control" formControlName = "category">
+      <select name="category" id="category" class="form-control" formControlName = "category" >
         <option [ngValue]="null">Choose Category</option>
-        <option *ngFor="let category of categories" [ngValue] = "category">{{category.cateName}} </option>
+        <!-- <option *ngIf="categoryCurrent" [ngValue]="categoryCurrent">{{categoryCurrent.cateName}}</option> -->
+        <!-- //loop
+        gen option
+          if seleted => add selected
+        ng-container
+        *ngIf
+        *ngFor -->
+        <!-- <ng-container *ngFor="let category of categories">
+          <div *ngIf="category.id == 2">
+            <option [ngValue] = "category">{{222}} </option>
+          </div>
+          [selected] = "category.cateName==categoryCurrent.cateName"
+          [ngValue]="category"
+        </ng-container> -->
+<!--
+        [selected] = "category.cateName==categoryCurrent.cateName"
+          [ngValue]="category"
+        -->
+        <ng-container *ngIf="categoryCurrent; else newBlock">
+          <option *ngFor="let category of categories"
+                  [selected]="category.id==categoryCurrent.id"
+
+          >
+            {{category.cateName}}
+          </option>
+        </ng-container>
+        <ng-template #newBlock>
+          <option *ngFor="let category of categories" [ngValue] = "category">{{category.cateName}} </option>
+        </ng-template>
+
+
+
+        <!-- <option *ngFor="let category of categories" [ngValue] = "category">{{category.cateName}} </option> -->
       </select>
     </div>
+
     <div class="form-group">
       <label for="brand">Brand</label>
-      <!-- <input type="text" name="brand" id="brand" class="form-control" formControlName = "brand"> -->
       <select name="brand" id="brand" class="form-control" formControlName = "brand">
         <option [ngValue]="null">Choose Brand</option>
         <option *ngFor="let brand of brands" [ngValue] = "brand">{{brand.brandName}} </option>
